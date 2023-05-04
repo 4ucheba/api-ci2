@@ -1,9 +1,12 @@
 package ru.netology.rest;
 
 import org.junit.jupiter.api.Test;
+import org.hamcrest.Matchers;
+import io.restassured.http.ContentType;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.*;
 
 class MobileBankApiTestV1 {
     @Test
@@ -18,6 +21,9 @@ class MobileBankApiTestV1 {
       // Проверки
       .then()
           .statusCode(200)
-        .body(matchesJsonSchemaInClasspath("accounts.schema.json"));
+        .body(matchesJsonSchemaInClasspath("accounts.schema.json"))
+        .body("[0].currency", equalTo("RUB"))
+        .body("[1].currency", equalTo("USD"))
+              ;
     }
 }
